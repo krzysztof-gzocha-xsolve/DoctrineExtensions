@@ -319,6 +319,9 @@ class TranslationWalker extends SqlWalker
                 $fieldMapping = $meta->getFieldMapping($field);
                 if (!in_array($fieldMapping["type"], array("datetime", "datetimetz", "date", "time"))) {
                     $type = Type::getType($fieldMapping["type"]);
+                    if ('string' == $fieldMapping['type']) {
+                        $fieldMapping['fixed'] = true;
+                    }
                     $substituteField = 'CAST(' . $substituteField . ' AS ' . $type->getSQLDeclaration($fieldMapping, $this->platform) . ')';
                 }
 
